@@ -3,21 +3,25 @@ using GameTemplate.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameTemplate.Managers
 {
     internal partial class GameStateManager : Component
     {
+
         private MenuScene ms= new MenuScene();
         private GameScene gs= new GameScene();
+        public Point mousePos;
+        public Rectangle mouseRectangle;
+        Rectangle PlayButtonRectangle;
+        int PlayButtonWidth;
+        int PlayButtonHeight;
 
-        internal override void LoadContent(ContentManager Content)
+        internal override void LoadContent(ContentManager Content, SpriteBatch spriteBatch)
         {
-            ms.LoadContent(Content);
-            gs.LoadContent(Content);
+            ms.LoadContent(Content, spriteBatch);
+            gs.LoadContent(Content, spriteBatch);
         }
 
         internal override void Update(GameTime gameTime)
@@ -25,7 +29,9 @@ namespace GameTemplate.Managers
             switch (Data.CurrentState)
             {
                 case Data.Scenes.Menu:
+
                     ms.Update(gameTime);
+
                     break;
                 case Data.Scenes.Game:
                     gs.Update(gameTime);

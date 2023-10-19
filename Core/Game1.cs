@@ -1,15 +1,17 @@
 ﻿using GameTemplate.Managers;
+using GameTemplate.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-//using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input;
 
 namespace GameTemplate.Core
 {
     public class Game1 : Game
     {
         public static GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
         private GameStateManager gsm;
+        private MenuScene ms = new MenuScene();
 
         public Game1()
         {
@@ -24,22 +26,24 @@ namespace GameTemplate.Core
             graphics.PreferredBackBufferHeight = Data.ScreenH;
             graphics.ApplyChanges();
             gsm = new GameStateManager();
-
+        
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            gsm.LoadContent(Content);
+            gsm.LoadContent(Content, spriteBatch);
 
         }
 
         protected override void Update(GameTime gameTime)
         {
-            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //    Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)||Data.Exit)
+                Exit();
+
             gsm.Update(gameTime);
+             
 
 
             base.Update(gameTime);
@@ -47,13 +51,10 @@ namespace GameTemplate.Core
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
 
             gsm.Draw(spriteBatch);
 
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

@@ -10,7 +10,7 @@ namespace GameTemplate.Core
 {
     internal abstract class Component
     {
-        internal abstract void LoadContent(ContentManager Content);
+        internal abstract void LoadContent(ContentManager Content, SpriteBatch spriteBatch);
         internal abstract void Update(GameTime gameTime);
         internal abstract void Draw(SpriteBatch spriteBatch);
 
