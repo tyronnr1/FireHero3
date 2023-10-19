@@ -13,6 +13,6 @@ namespace GameTemplate.Core
         public static bool Exit { get; set; } = false;
 
         public enum Scenes { Menu,Game,Setting}
-        public static Scenes CurrentState { get; set; } = Scenes.Menu;
+        public static Scenes CurrentState { get; set; } = Scenes.Game;
     }
 }
