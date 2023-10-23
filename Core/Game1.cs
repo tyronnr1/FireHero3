@@ -11,7 +11,6 @@ namespace GameTemplate.Core
         public static GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         private GameStateManager gsm;
-        private MenuScene ms = new MenuScene();
 
         public Game1()
         {

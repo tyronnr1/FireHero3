@@ -12,16 +12,14 @@ namespace GameTemplate.Managers
 
         private MenuScene ms= new MenuScene();
         private GameScene gs= new GameScene();
-        public Point mousePos;
-        public Rectangle mouseRectangle;
-        Rectangle PlayButtonRectangle;
-        int PlayButtonWidth;
-        int PlayButtonHeight;
+        private ReplayScene rs = new ReplayScene();
 
         internal override void LoadContent(ContentManager Content, SpriteBatch spriteBatch)
         {
             ms.LoadContent(Content, spriteBatch);
             gs.LoadContent(Content, spriteBatch);
+            rs.LoadContent(Content, spriteBatch);
+
         }
 
         internal override void Update(GameTime gameTime)
@@ -29,14 +27,18 @@ namespace GameTemplate.Managers
             switch (Data.CurrentState)
             {
                 case Data.Scenes.Menu:
-
                     ms.Update(gameTime);
-
                     break;
+
                 case Data.Scenes.Game:
                     gs.Update(gameTime);
                     break;
-                case Data.Scenes.Setting:
+
+                case Data.Scenes.Replay:
+                    rs.Update(gameTime);
+
+
+                    
                     break;
             }
         }
@@ -48,10 +50,13 @@ namespace GameTemplate.Managers
                 case Data.Scenes.Menu:
                     ms.Draw(spriteBatch);
                     break;
+
                 case Data.Scenes.Game:
                     gs.Draw(spriteBatch);
                     break;
-                case Data.Scenes.Setting:
+
+                case Data.Scenes.Replay:
+                    rs.Draw(spriteBatch);
                     break;
             }
         }

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Metadata;
 
 namespace GameTemplate.Scenes
 {
@@ -24,9 +25,7 @@ namespace GameTemplate.Scenes
 
         Animation sword;
         Animation swordIcon;
-        public bool swordActive = false;
         Vector2 swordpos;
-        double swordTime = 0;
         public IceMissile[] iceMissileArray;
 
         internal override void LoadContent(ContentManager Content, SpriteBatch _spriteBatch)
@@ -47,7 +46,7 @@ namespace GameTemplate.Scenes
             iceMissileArray = new IceMissile[temp];
             for (int i = 0; i < temp; i++)
             {
-                iceMissileArray[i] = new IceMissile(spriteBatch, Content, tileSize, 500f, graphics, i + 4);
+                iceMissileArray[i] = new IceMissile(spriteBatch, Content, tileSize, graphics, i + 4);
             }
 
             CreateLevel("labyrint.txt");
@@ -55,6 +54,29 @@ namespace GameTemplate.Scenes
 
         internal override void Update(GameTime gameTime)
         {
+
+            if (Player.life==0)
+            {
+                player.Reset();
+
+                player = new Player(new Vector2(tileSize * 0 + 605, tileSize * 13 + 70));
+                monster = new Animation(spriteBatch, TextureHandler.monster, 640 / 5, 640 / 5, 24, 0.1f);
+                sword = new Animation(spriteBatch, TextureHandler.sword, 640 / 5, 384 / 3, 12, 0.1f);
+                swordIcon = new Animation(spriteBatch, TextureHandler.sword, 640 / 5, 384 / 3, 12, 0.1f);
+
+                int temp = (Data.ScreenH / tileSize) - 5;
+
+                iceMissileArray = new IceMissile[temp];
+                for (int i = 0; i < temp; i++)
+                {
+                    iceMissileArray[i] = new IceMissile(spriteBatch, Data.content, tileSize, graphics, i + 4);
+                }
+
+
+                Data.CurrentState = Data.Scenes.Replay;
+            }
+
+
 
             player.Update(gameTime, tileSize);
             monster.Update(gameTime);
@@ -64,11 +86,11 @@ namespace GameTemplate.Scenes
 
             for (int i = 0; i < iceMissileArray.Length; i++)
             {
-                iceMissileArray[i].Update(gameTime, spriteBatch, player.pos, swordActive);
+                iceMissileArray[i].Update(gameTime, spriteBatch, player.pos, Player.swordActive);
 
-                iceMissileArray[i].Spawn(new Random(), screenWidth, screenHeight);
+                iceMissileArray[i].Spawn(new Random());
 
-                if (Vector2.Distance(player.pos, iceMissileArray[i].position) < tileSize && swordActive)
+                if (Vector2.Distance(player.pos, iceMissileArray[i].position) < tileSize && Player.swordActive)
                 {
                     iceMissileArray[i].IsActive = false;
                 }
@@ -77,22 +99,22 @@ namespace GameTemplate.Scenes
 
 
 
-            if (Vector2.Distance(player.pos, swordpos) < tileSize && !swordActive)
+            if (Vector2.Distance(player.pos, swordpos) < tileSize && !Player.swordActive)
             {
-                swordTime = 0;
-                swordActive = true;
+                Player.swordTime = 0;
+                Player.swordActive = true;
             }
 
-            if (swordActive)
+            if (Player.swordActive)
             {
 
-                swordTime += gameTime.ElapsedGameTime.TotalSeconds;
+                Player.swordTime += gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (swordTime >= 20)
+                if (Player.swordTime >= 20)
                 {
                     player.tex = TextureHandler.PlayerTexture;
 
-                    swordActive = false;
+                    Player.swordActive = false;
                 }
             }
 
@@ -109,10 +131,10 @@ namespace GameTemplate.Scenes
             {
                 t.Draw(spriteBatch, tileSize);
             }
-            player.Draw(spriteBatch, tileSize, swordActive);
+            player.Draw(spriteBatch, tileSize, Player.swordActive);
             monster.Draw(new Vector2((screenWidth / 2) - (TextureHandler.monster.Width / 5), 30), Color.White, SpriteEffects.None);
 
-            if (!swordActive)
+            if (!Player.swordActive)
             {
                 sword.Draw(swordpos, Color.White, SpriteEffects.None);
                 //sword.Draw(swordpos, Color.Lerp(Color.Transparent, Color.Black, 0.5f), SpriteEffects.None);
@@ -127,12 +149,12 @@ namespace GameTemplate.Scenes
 
             }
 
-            for (int i = 0; i < IceMissile.life; i++)
+            for (int i = 0; i < Player.life; i++)
             {
                 spriteBatch.Draw(TextureHandler.heart, new Rectangle((tileSize + 10) + ((tileSize + 10) * i), tileSize, tileSize + tileSize / 2, tileSize + tileSize / 2), Color.White);
 
             }
-            if (swordActive)
+            if (Player.swordActive)
             {
                 swordIcon.Draw(new Vector2((tileSize + 10) * 2, (tileSize + 10) * 2), Color.White, SpriteEffects.None);
             }

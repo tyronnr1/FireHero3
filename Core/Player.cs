@@ -16,10 +16,16 @@ namespace GameTemplate.Core
         public bool moving;
         public Vector2 destination;
         public int points = 9999;
+        public static int life = 3;
+        public static bool swordActive = false;
+        public static double swordTime = 0;
+
+
 
         public Player(Vector2 pos)
         {
             this.pos = pos;
+
             tex = TextureHandler.PlayerTexture;
             direction = new Vector2(0, 0);
             speed = 300;
@@ -114,5 +120,14 @@ namespace GameTemplate.Core
                 moving = true;
             }
         }
+
+        public void Reset()
+        {
+            life = 3;
+
+            swordActive = false;
+            swordTime = 0;
+
+    }
     }
 }

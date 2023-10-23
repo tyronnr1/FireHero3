@@ -21,9 +21,10 @@ namespace GameTemplate.Core
         public static Texture2D holdingSword;
         public static Texture2D movingIce;
         public static Texture2D iceBreaking;
-        public static Texture2D playbutton;
+        public static Texture2D Replaybutton;
         public static Texture2D logo;
         public static Texture2D ExitButton;
+        public static Texture2D LoseBackround;
 
 
 
@@ -46,9 +47,10 @@ namespace GameTemplate.Core
             holdingSword = content.Load<Texture2D>("HoldingSword");
             movingIce = content.Load<Texture2D>("movingIce");
             iceBreaking = content.Load<Texture2D>("iceBreaking");
-            playbutton = content.Load<Texture2D>("button");
+            Replaybutton = content.Load<Texture2D>("button");
             logo = content.Load<Texture2D>("logo");
             ExitButton = content.Load<Texture2D>("ExitButton");
+            LoseBackround = content.Load<Texture2D>("Lose");
 
 
 

@@ -21,34 +21,35 @@ namespace GameTemplate.Core
         public Vector2 currentTilePosition;
         public Animation ice;
         public SpriteEffects effect = SpriteEffects.None;
-        public static int life = 3;
         bool breaking;
 
         public bool IsActive { get; set; }
         Game Game { get; set; }
 
-        public IceMissile(SpriteBatch spriteBatch,ContentManager content, int tileSize, float speed, GraphicsDeviceManager graphics, int tileLevel)
+        public IceMissile(SpriteBatch spriteBatch,ContentManager content, int tileSize, GraphicsDeviceManager graphics, int tileLevel)
         {
             position.Y=(tileSize*tileLevel)-20;
             this.ice = new Animation(spriteBatch,TextureHandler.movingIce,403/5,161/2,8,0.1f);
 
             this.tileSize = tileSize;
-            this.speed = speed;
+            this.speed = 1000f;
             iceSprite = ice.GiveCurrentSprite().tex; // Load your ice sprite texture
             IsActive = false;
-            ScreenWidth = Data.ScreenW;
-            ScreenHeight = Data.ScreenH;
         }
 
-        public void Spawn(Random random, int screenWidth, int screenHeight)
+        public void Spawn(Random random)
         {
             
             int side = random.Next(2); // 0 for left, 1 for right
-            int randomspawn = random.Next(500); // 0 for left, 1 for right
+            int Rspeed = random.Next(4); 
+
+            int randomspawn = random.Next(300); 
 
             if (randomspawn==0&&IsActive==false)
             {
+                ice.spriteSheet = TextureHandler.movingIce;
                 IsActive = true;
+                
                 if (side == 0) // Spawn on the left side
                 {
                     position = new Vector2(0, position.Y);
@@ -58,10 +59,14 @@ namespace GameTemplate.Core
                 }
                 else // Spawn on the right side
                 {
-                    position = new Vector2(screenWidth - tileSize, position.Y);
+                    position = new Vector2(Data.ScreenW - tileSize, position.Y);
                     direction = new Vector2(-1, 0); // Move left
 
                     effect = SpriteEffects.FlipHorizontally; // Flip vertically to look left
+                }
+                if (Rspeed > 0)
+                {
+                    speed = 700f;
                 }
             }
             
@@ -85,7 +90,7 @@ namespace GameTemplate.Core
                 {
                     if (!breaking)
                     {
-                        life -= 1;
+                        Player.life -= 1;
 
                     }
                     speed = 0;
@@ -106,8 +111,8 @@ namespace GameTemplate.Core
                 }
 
                 // Check if the ice missile has moved off the screen, if so, deactivate it
-                if (position.X < 0 - tileSize || position.X > ScreenWidth ||
-                    position.Y < 0 - tileSize || position.Y > ScreenHeight)
+                if (position.X < 0 - tileSize || position.X > Data.ScreenW ||
+                    position.Y < 0 - tileSize || position.Y > Data.ScreenH)
                 {
                     IsActive = false;
                 }
