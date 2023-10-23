@@ -28,7 +28,7 @@ namespace GameTemplate.Core
 
             tex = TextureHandler.PlayerTexture;
             direction = new Vector2(0, 0);
-            speed = 300;
+            speed =  6.9f;
             moving = false;
             destination = Vector2.Zero;
 
@@ -69,7 +69,7 @@ namespace GameTemplate.Core
             }
             else
             {
-                pos += direction * speed * (float)gt.ElapsedGameTime.TotalSeconds;
+                pos += direction * speed;// * (float)gt.ElapsedGameTime.Milliseconds;
 
                 if (Vector2.Distance(pos, destination) < 1)
                 {
