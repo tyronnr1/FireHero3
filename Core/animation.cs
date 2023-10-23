@@ -42,15 +42,16 @@ namespace GameTemplate.Core
             }
         }
 
-        public void Draw( Vector2 position, Color color, SpriteEffects effect)
+        public void Draw( Vector2 position, Color color, SpriteEffects effect,int scale)
         {
             int row = currentFrame / (spriteSheet.Width / frameWidth);
             int column = currentFrame % (spriteSheet.Width / frameWidth);
 
             Rectangle sourceRectangle = new Rectangle(column * frameWidth, row * frameHeight, frameWidth, frameHeight);
-            Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, frameWidth, frameHeight);
+            Vector2 destination = new Vector2((int)position.X, (int)position.Y);
 
-            spriteBatch.Draw(spriteSheet, destinationRectangle, sourceRectangle, color,0f, Vector2.Zero,effect,0f);
+            spriteBatch.Draw(spriteSheet, destination, sourceRectangle, color,0f, Vector2.Zero,scale,effect,0f);
+
         }
 
 

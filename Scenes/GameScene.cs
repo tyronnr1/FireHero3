@@ -2,11 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection.Metadata;
 
 namespace GameTemplate.Scenes
 {
@@ -27,6 +25,9 @@ namespace GameTemplate.Scenes
         Animation swordIcon;
         Vector2 swordpos;
         public IceMissile[] iceMissileArray;
+
+        Buttons button;
+        Buttons[] buttonArray;
 
         internal override void LoadContent(ContentManager Content, SpriteBatch _spriteBatch)
         {
@@ -84,6 +85,7 @@ namespace GameTemplate.Scenes
             swordIcon.Update(gameTime);
 
 
+
             for (int i = 0; i < iceMissileArray.Length; i++)
             {
                 iceMissileArray[i].Update(gameTime, spriteBatch, player.pos, Player.swordActive);
@@ -132,11 +134,11 @@ namespace GameTemplate.Scenes
                 t.Draw(spriteBatch, tileSize);
             }
             player.Draw(spriteBatch, tileSize, Player.swordActive);
-            monster.Draw(new Vector2((screenWidth / 2) - (TextureHandler.monster.Width / 5), 30), Color.White, SpriteEffects.None);
+            monster.Draw(new Vector2((Data.ScreenW / 2) - (TextureHandler.monster.Width / 5), 30), Color.White, SpriteEffects.None,2);
 
             if (!Player.swordActive)
             {
-                sword.Draw(swordpos, Color.White, SpriteEffects.None);
+                sword.Draw(swordpos, Color.White, SpriteEffects.None,1);
                 //sword.Draw(swordpos, Color.Lerp(Color.Transparent, Color.Black, 0.5f), SpriteEffects.None);
 
             }
@@ -156,7 +158,7 @@ namespace GameTemplate.Scenes
             }
             if (Player.swordActive)
             {
-                swordIcon.Draw(new Vector2((tileSize + 10) * 2, (tileSize + 10) * 2), Color.White, SpriteEffects.None);
+                swordIcon.Draw(new Vector2((tileSize + 10) * 2, (tileSize + 10) * 2), Color.White, SpriteEffects.None,1);
             }
 
 
@@ -233,6 +235,7 @@ namespace GameTemplate.Scenes
                             break;
                         case '¤'://Button
                             tex = TextureHandler.buttonTexture;
+
                             boolean = false;
                             break;
                     }

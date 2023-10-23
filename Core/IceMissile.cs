@@ -124,7 +124,8 @@ namespace GameTemplate.Core
         {
             if (IsActive)
             {
-                ice.Draw(position,Color.White,effect);
+                
+                ice.Draw(new Vector2(position.X, position.Y - 40), Color.White,effect,2);
             }
         }
         public void ChangeSpriteSheet(SpriteBatch spriteBatch, Texture2D tex, int frameWidth, int frameHeight, int totalFrames, float frameDuration)
