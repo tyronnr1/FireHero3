@@ -21,7 +21,7 @@ namespace GameTemplate.Core
         public static double swordTime = 0;
         public static bool godMode=false;
         public static bool endMode = false;
-
+        double timer = 0;
 
 
         public Player(Vector2 pos)
@@ -84,6 +84,12 @@ namespace GameTemplate.Core
             }
             else
             {
+
+                if (endMode)
+                {
+                    timer += gt.ElapsedGameTime.TotalSeconds;
+
+                }
                 pos += direction * speed;// * (float)gt.ElapsedGameTime.Milliseconds;
 
                 if (Vector2.Distance(pos, destination) < 1)
@@ -128,14 +134,21 @@ namespace GameTemplate.Core
             }
             else
             {
-                double timer = 0;
                 if (endMode)
                 {
-                    timer += Data.gameTime.ElapsedGameTime.TotalSeconds;
-                    if (timer > 3) temptex = TextureHandler.PlayerShot;
 
-                    rec = new Rectangle((int)this.pos.X, (int)this.pos.Y, tileSize*2, tileSize);
+                    if (timer > 3)
+                    {
+                        temptex = TextureHandler.PlayerShot;
+                        rec = new Rectangle((int)this.pos.X, (int)this.pos.Y, tileSize * 2, tileSize);
 
+                    }
+                    else 
+                    { 
+                        temptex = TextureHandler.holdingSword;
+                        rec = new Rectangle((int)this.pos.X, (int)this.pos.Y, tileSize , tileSize);
+
+                    }
 
                 }
                 else temptex = TextureHandler.holdingSword;
