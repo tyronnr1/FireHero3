@@ -1,5 +1,4 @@
 ﻿using GameTemplate.Managers;
-using GameTemplate.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -25,7 +24,7 @@ namespace GameTemplate.Core
             graphics.PreferredBackBufferHeight = Data.ScreenH;
             graphics.ApplyChanges();
             gsm = new GameStateManager();
-        
+
             base.Initialize();
         }
 
@@ -38,11 +37,11 @@ namespace GameTemplate.Core
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)||Data.Exit)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) || Data.Exit)
                 Exit();
 
             gsm.Update(gameTime);
-             
+
 
 
             base.Update(gameTime);

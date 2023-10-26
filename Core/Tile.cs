@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace GameTemplate.Core
 {
@@ -19,7 +16,7 @@ namespace GameTemplate.Core
             this.notWalkable = notWalkable;
         }
 
-        public void Draw(SpriteBatch spriteBatch,int tileSize)
+        public void Draw(SpriteBatch spriteBatch, int tileSize)
         {
             Rectangle rec = new Rectangle((int)pos.X, (int)pos.Y, tileSize, tileSize);
             spriteBatch.Draw(tex, rec, Color.White);

@@ -25,6 +25,11 @@ namespace GameTemplate.Core
         public static Texture2D logo;
         public static Texture2D ExitButton;
         public static Texture2D LoseBackround;
+        public static Texture2D ClickedButton;
+        public static Texture2D WinBackround;
+        public static SpriteFont Score;
+        public static SpriteFont Swordtime;
+        public static Texture2D PlayerShot;
 
 
 
@@ -51,7 +56,11 @@ namespace GameTemplate.Core
             logo = content.Load<Texture2D>("logo");
             ExitButton = content.Load<Texture2D>("ExitButton");
             LoseBackround = content.Load<Texture2D>("Lose");
-
+            ClickedButton = content.Load<Texture2D>("ClickedButton");
+            WinBackround = content.Load<Texture2D>("WinBackround");
+            Score = content.Load<SpriteFont>("Font1");
+            Swordtime = content.Load<SpriteFont>("Font1 (1)");
+            PlayerShot = content.Load<Texture2D>("playershot");
 
 
         }

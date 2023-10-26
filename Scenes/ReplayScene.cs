@@ -2,24 +2,24 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace GameTemplate.Scenes
 {
     internal class ReplayScene : Component
     {
         Boolean mouseOnPlay = false;
-        Boolean mouseOnExit = false;
         Rectangle ReplayButtonRectangle;
         int ReplayButtonWidth;
         int ReplayButtonHeight;
-        Color ReplayButtonColor;
+        Color ReplayButtonColor = Color.White;
 
+        Boolean mouseOnExit = false;
         Rectangle ExitButtonRectangle;
         int ExitButtonWidth;
         int ExitButtonHeight;
-        Color ExitButtonColor;
+        Color ExitButtonColor = Color.White;
 
 
         public Point mousePos;
@@ -39,7 +39,8 @@ namespace GameTemplate.Scenes
 
             ExitButtonWidth = TextureHandler.Replaybutton.Width / 3;
             ExitButtonHeight = TextureHandler.Replaybutton.Height / 3;
-            ExitButtonRectangle = new Rectangle(Data.ScreenW / 2 - (ExitButtonWidth) / 2, (Data.ScreenH / 2 - (ExitButtonHeight) / 2) - 50, ExitButtonWidth, ExitButtonHeight);
+            ExitButtonRectangle = new Rectangle(Data.ScreenW / 2 - (ExitButtonWidth) / 2, (Data.ScreenH / 2 - (ExitButtonHeight) / 2) + ExitButtonHeight + 50, ExitButtonWidth, ExitButtonHeight);
+
         }
 
         internal override void Update(GameTime gameTime)
@@ -57,7 +58,7 @@ namespace GameTemplate.Scenes
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
-                    
+
                     Data.CurrentState = Data.Scenes.Game;
                 }
             }
@@ -140,9 +141,6 @@ namespace GameTemplate.Scenes
 
             spriteBatch.Draw(TextureHandler.Replaybutton, ReplayButtonRectangle, ReplayButtonColor);
             spriteBatch.Draw(TextureHandler.ExitButton, ExitButtonRectangle, ExitButtonColor);
-
-            //spriteBatch.Draw(TextureHandler.logo, new Rectangle((Data.ScreenW / 2) - (int)(TextureHandler.logo.Width * 1.3) / 2, 100, (int)(TextureHandler.logo.Width * 1.3), (int)(TextureHandler.logo.Height * 1.3)), Color.White);
-
 
             spriteBatch.End();
         }

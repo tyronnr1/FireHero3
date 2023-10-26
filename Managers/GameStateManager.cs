@@ -3,22 +3,24 @@ using GameTemplate.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace GameTemplate.Managers
 {
     internal partial class GameStateManager : Component
     {
 
-        private MenuScene ms= new MenuScene();
-        private GameScene gs= new GameScene();
+        private MenuScene ms = new MenuScene();
+        private GameScene gs = new GameScene();
         private ReplayScene rs = new ReplayScene();
+        private WinAndScoreScene ws = new WinAndScoreScene();
+
 
         internal override void LoadContent(ContentManager Content, SpriteBatch spriteBatch)
         {
             ms.LoadContent(Content, spriteBatch);
             gs.LoadContent(Content, spriteBatch);
             rs.LoadContent(Content, spriteBatch);
+            ws.LoadContent(Content, spriteBatch);
 
         }
 
@@ -36,9 +38,10 @@ namespace GameTemplate.Managers
 
                 case Data.Scenes.Replay:
                     rs.Update(gameTime);
+                    break;
 
-
-                    
+                case Data.Scenes.Win:
+                    ws.Update(gameTime);
                     break;
             }
         }
@@ -57,6 +60,10 @@ namespace GameTemplate.Managers
 
                 case Data.Scenes.Replay:
                     rs.Draw(spriteBatch);
+                    break;
+
+                case Data.Scenes.Win:
+                    ws.Draw(spriteBatch);
                     break;
             }
         }

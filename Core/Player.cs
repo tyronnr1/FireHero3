@@ -1,7 +1,7 @@
-﻿using GameTemplate.Core;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 
 namespace GameTemplate.Core
@@ -15,10 +15,12 @@ namespace GameTemplate.Core
 
         public bool moving;
         public Vector2 destination;
-        public int points = 9999;
+        public static int points = 0;
         public static int life = 3;
         public static bool swordActive = false;
         public static double swordTime = 0;
+        public static bool godMode=false;
+        public static bool endMode = false;
 
 
 
@@ -28,43 +30,56 @@ namespace GameTemplate.Core
 
             tex = TextureHandler.PlayerTexture;
             direction = new Vector2(0, 0);
-            speed =  6.9f;
+            speed = 6.9f;
             moving = false;
             destination = Vector2.Zero;
 
         }
 
-        public void Update(GameTime gt,int tileSize)
+        public void Update(GameTime gt, int tileSize)
         {
             KeyMouseReader.Update();
-            if (!moving)
+            if (!godMode)
             {
-                if(Scenes.GameScene.GetTextureAtPosition(new Vector2(pos.X, pos.Y+tileSize))== TextureHandler.airTexture) 
+                if (!moving)
                 {
-                     ChangeDirection(new Vector2(0, 1), tileSize);
-                }  
-                else if (KeyMouseReader.KeyPressed(Keys.Up))
-                {
-                    if (Scenes.GameScene.GetTextureAtPosition(this.pos)==TextureHandler.ladderTexture|| Scenes.GameScene.GetTextureAtPosition(this.pos) == TextureHandler.topLadderTexture)
-                    {
-                        ChangeDirection(new Vector2(0, -1), tileSize);
-                    }
-                }
-                else if (KeyMouseReader.KeyPressed(Keys.Left))
-                {
-                    ChangeDirection(new Vector2(-1, 0), tileSize);
-                }
-                else if (KeyMouseReader.KeyPressed(Keys.Down))
-                {
-
-                    if (Scenes.GameScene.GetTextureAtPosition(this.pos) == TextureHandler.ladderTexture|| Scenes.GameScene.GetTextureAtPosition(new Vector2(pos.X, pos.Y + tileSize)) == TextureHandler.topLadderTexture || Scenes.GameScene.GetTextureAtPosition(new Vector2(pos.X, pos.Y + tileSize)) == TextureHandler.ladderTexture)
+                    if (Scenes.GameScene.GetTextureAtPosition(new Vector2(pos.X, pos.Y + tileSize)) == TextureHandler.airTexture)
                     {
                         ChangeDirection(new Vector2(0, 1), tileSize);
                     }
+                    else if (KeyMouseReader.KeyPressed(Keys.Up))
+                    {
+                        if (Scenes.GameScene.GetTextureAtPosition(this.pos) == TextureHandler.ladderTexture || Scenes.GameScene.GetTextureAtPosition(this.pos) == TextureHandler.topLadderTexture)
+                        {
+                            ChangeDirection(new Vector2(0, -1), tileSize);
+                        }
+                    }
+                    else if (KeyMouseReader.KeyPressed(Keys.Left))
+                    {
+                        ChangeDirection(new Vector2(-1, 0), tileSize);
+                    }
+                    else if (KeyMouseReader.KeyPressed(Keys.Down))
+                    {
+
+                        if (Scenes.GameScene.GetTextureAtPosition(this.pos) == TextureHandler.ladderTexture || Scenes.GameScene.GetTextureAtPosition(new Vector2(pos.X, pos.Y + tileSize)) == TextureHandler.topLadderTexture || Scenes.GameScene.GetTextureAtPosition(new Vector2(pos.X, pos.Y + tileSize)) == TextureHandler.ladderTexture)
+                        {
+                            ChangeDirection(new Vector2(0, 1), tileSize);
+                        }
+                    }
+                    else if (KeyMouseReader.KeyPressed(Keys.Right))
+                    {
+                        ChangeDirection(new Vector2(1, 0), tileSize);
+                    }
                 }
-                else if (KeyMouseReader.KeyPressed(Keys.Right))
+                else
                 {
-                    ChangeDirection(new Vector2(1, 0), tileSize);
+                    pos += direction * speed;// * (float)gt.ElapsedGameTime.Milliseconds;
+
+                    if (Vector2.Distance(pos, destination) < 1)
+                    {
+                        pos = destination;
+                        moving = false;
+                    }
                 }
             }
             else
@@ -77,39 +92,64 @@ namespace GameTemplate.Core
                     moving = false;
                 }
             }
+            
+
         }
 
-        public void Draw(SpriteBatch sb, int tileSize,bool swordActive)
+        public void Draw(SpriteBatch sb, int tileSize, bool swordActive)
         {
             Rectangle rec = new Rectangle((int)this.pos.X, (int)this.pos.Y, tileSize, tileSize);
             Vector2 origin = Vector2.Zero;
             Texture2D temptex = TextureHandler.PlayerTexture;
             SpriteEffects flip = SpriteEffects.None;
-            if (direction.X < 0) // If moving left
+            if (!godMode)
             {
-                flip = SpriteEffects.FlipHorizontally; 
-                temptex = TextureHandler.PlayerTexture;
-            }
-            if (swordActive&& direction.X < 0)
-            {
-                flip = SpriteEffects.FlipHorizontally; 
-                temptex = TextureHandler.holdingSword;
-            }else if(swordActive && direction.X > 0)
-            {
-                temptex = TextureHandler.holdingSword;
-            }
-            
+                if (direction.X < 0) // If moving left
+                {
+                    flip = SpriteEffects.FlipHorizontally;
+                    temptex = TextureHandler.PlayerTexture;
+                }
+                if (swordActive && direction.X < 0)
+                {
+                    flip = SpriteEffects.FlipHorizontally;
+                    temptex = TextureHandler.holdingSword;
+                }
+                else if (swordActive && direction.X > 0)
+                {
+                    temptex = TextureHandler.holdingSword;
+                }
 
-            if (direction.Y < 0|| direction.Y > 0)
+
+                if (direction.Y < 0 || direction.Y > 0)
+                {
+                    temptex = TextureHandler.climing;
+                }
+
+            }
+            else
             {
-                temptex = TextureHandler.climing;
+                double timer = 0;
+                if (endMode)
+                {
+                    timer += Data.gameTime.ElapsedGameTime.TotalSeconds;
+                    if (timer > 3) temptex = TextureHandler.PlayerShot;
+
+                    rec = new Rectangle((int)this.pos.X, (int)this.pos.Y, tileSize*2, tileSize);
+
+
+                }
+                else temptex = TextureHandler.holdingSword;
+                
+                flip = SpriteEffects.FlipHorizontally;
             }
 
-            sb.Draw(temptex, rec,null,Color.White,0f,origin,flip,0f);
+
+
+            sb.Draw(temptex, rec, null, Color.White, 0f, origin, flip, 0f);
 
         }
 
-        public void ChangeDirection(Vector2 dir,int tileSize)
+        public void ChangeDirection(Vector2 dir, int tileSize)
         {
             direction = dir;
             Vector2 newDestination = pos + direction * tileSize;
@@ -124,10 +164,15 @@ namespace GameTemplate.Core
         public void Reset()
         {
             life = 3;
-
+            moving = false;
             swordActive = false;
             swordTime = 0;
+            tex = TextureHandler.PlayerTexture;
+            direction = new Vector2(0, 0);
+            speed = 6.9f;
+            destination = Vector2.Zero;
+            godMode = false;
 
-    }
+        }
     }
 }

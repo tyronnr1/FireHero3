@@ -10,7 +10,7 @@ namespace GameTemplate.Core
         public Texture2D spriteSheet;
         private int frameWidth;
         private int frameHeight;
-        public  int totalFrames;
+        public int totalFrames;
         public int currentFrame;
         private float frameDuration;
         private float timer;
@@ -18,7 +18,7 @@ namespace GameTemplate.Core
 
 
 
-        public Animation(SpriteBatch spriteBatch,Texture2D spriteSheet, int frameWidth, int frameHeight, int totalFrames, float frameDuration)
+        public Animation(SpriteBatch spriteBatch, Texture2D spriteSheet, int frameWidth, int frameHeight, int totalFrames, float frameDuration)
         {
             this.spriteSheet = spriteSheet;
             this.frameWidth = frameWidth;
@@ -28,7 +28,7 @@ namespace GameTemplate.Core
             this.currentFrame = 0;
             this.timer = 0f;
             this.spriteBatch = spriteBatch;
-            
+
         }
 
         public void Update(GameTime gameTime)
@@ -42,7 +42,7 @@ namespace GameTemplate.Core
             }
         }
 
-        public void Draw( Vector2 position, Color color, SpriteEffects effect,int scale)
+        public void Draw(Vector2 position, Color color, SpriteEffects effect, int scale)
         {
             int row = currentFrame / (spriteSheet.Width / frameWidth);
             int column = currentFrame % (spriteSheet.Width / frameWidth);
@@ -50,12 +50,12 @@ namespace GameTemplate.Core
             Rectangle sourceRectangle = new Rectangle(column * frameWidth, row * frameHeight, frameWidth, frameHeight);
             Vector2 destination = new Vector2((int)position.X, (int)position.Y);
 
-            spriteBatch.Draw(spriteSheet, destination, sourceRectangle, color,0f, Vector2.Zero,scale,effect,0f);
+            spriteBatch.Draw(spriteSheet, destination, sourceRectangle, color, 0f, Vector2.Zero, scale, effect, 0f);
 
         }
 
 
-        public (Texture2D tex,Rectangle rec) GiveCurrentSprite()
+        public (Texture2D tex, Rectangle rec) GiveCurrentSprite()
         {
             int row = currentFrame / (spriteSheet.Width / frameWidth);
             int column = currentFrame % (spriteSheet.Width / frameWidth);
