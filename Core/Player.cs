@@ -23,7 +23,6 @@ namespace GameTemplate.Core
         public static bool endMode = false;
         double timer = 0;
 
-
         public Player(Vector2 pos)
         {
             this.pos = pos;
@@ -136,11 +135,15 @@ namespace GameTemplate.Core
             {
                 if (endMode)
                 {
-
+                    
                     if (timer > 3)
                     {
                         temptex = TextureHandler.PlayerShot;
                         rec = new Rectangle((int)this.pos.X, (int)this.pos.Y, tileSize * 2, tileSize);
+
+                    }else if (timer > 4)
+                    {
+                        Data.CurrentState = Data.Scenes.Win;
 
                     }
                     else 

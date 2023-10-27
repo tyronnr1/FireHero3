@@ -32,6 +32,7 @@ namespace GameTemplate.Scenes
 
         Buttons[] buttonArray;
         int amountOfButtons = 6;
+        public static bool reset;
 
         internal override void LoadContent(ContentManager Content, SpriteBatch _spriteBatch)
         {
@@ -59,13 +60,12 @@ namespace GameTemplate.Scenes
 
         internal override void Update(GameTime gameTime)
         {
+            
             TimeInGame += gameTime.ElapsedGameTime.TotalSeconds;
             if (Player.life == 0)
             {
                 EndTime = TimeInGame;
                 Player.points += (int)((amountOfButtons * 50) / (EndTime / 20));
-                Debug.WriteLine(EndTime);
-                Debug.WriteLine(Player.points);
 
                 player.Reset();
 
@@ -131,46 +131,56 @@ namespace GameTemplate.Scenes
 
                     //Cutscene100      -      5        >0
 
-                    if ((player.pos.Y) - (2 * tileSize - 70) > 0)
-                    {
-                        player.ChangeDirection(new Vector2(0, -1), tileSize);
-                        player.tex = TextureHandler.holdingSword;
-                    }
-                    else 
-                    { 
-                        player.speed = 0; 
-                        player.pos.X = tileSize * 11 + 605; 
-                        Player.endMode = true;
-                    }
+                    
+
 
 
                     //
 
 
+                    
 
 
-                    //for (int l = 0; l < buttonArray.Length; l++)
-                    //{
-                    //    buttonArray[l].Reset();
-                    //    Buttons.allClicked = false;
-                    //}                
-
-                    //player.Reset();
-
-                    //player = new Player(new Vector2(tileSize * 0 + 605, tileSize * 13 + 70));
-                    //monster = new Animation(spriteBatch, TextureHandler.monster, 640 / 5, 640 / 5, 24, 0.1f);
-                    //sword = new Animation(spriteBatch, TextureHandler.sword, 640 / 5, 384 / 3, 12, 0.1f);
-                    //swordIcon = new Animation(spriteBatch, TextureHandler.sword, 640 / 5, 384 / 3, 12, 0.1f);
-                    //int temp = (Data.ScreenH / tileSize) - 5;
 
 
-                    //iceMissileArray = new IceMissile[temp];
-                    //for (int j = 0; j < temp; j++)
-                    //{
-                    //    iceMissileArray[j] = new IceMissile(spriteBatch, Data.content, tileSize, graphics, j + 4);
-                    //}
+                    if ((player.pos.Y) - (2 * tileSize - 70) > 0)
+                    {
+                        player.ChangeDirection(new Vector2(0, -1), tileSize);
+                        player.tex = TextureHandler.holdingSword;
+                    }
+                    else
+                    {
+                        player.speed = 0;
+                        player.pos.X = tileSize * 11 + 605;
+                        Player.endMode = true;
 
-                    //Data.CurrentState = Data.Scenes.Win ;
+                    }
+
+
+                    if (player.tex == TextureHandler.PlayerShot)
+                    {
+                        Data.CurrentState = Data.Scenes.Win;
+                        for (int l = 0; l < buttonArray.Length; l++)
+                        {
+                            buttonArray[l].Reset();
+                            Buttons.allClicked = false;
+
+                        }
+                        player = new Player(new Vector2(tileSize * 0 + 605, tileSize * 13 + 70));
+                        monster = new Animation(spriteBatch, TextureHandler.monster, 640 / 5, 640 / 5, 24, 0.1f);
+                        sword = new Animation(spriteBatch, TextureHandler.sword, 640 / 5, 384 / 3, 12, 0.1f);
+                        swordIcon = new Animation(spriteBatch, TextureHandler.sword, 640 / 5, 384 / 3, 12, 0.1f);
+                        int temp = (Data.ScreenH / tileSize) - 5;
+
+
+                        iceMissileArray = new IceMissile[temp];
+                        for (int j = 0; j < temp; j++)
+                        {
+                            iceMissileArray[j] = new IceMissile(spriteBatch, Data.content, tileSize, graphics, j + 4);
+                        }
+                        player.Reset();
+                    }
+                    
                 }
 
 
@@ -357,5 +367,7 @@ namespace GameTemplate.Scenes
         {
             return tileArray[((int)pos.X - 605) / tileSize, ((int)pos.Y - 70) / tileSize].tex;
         }
+
+
     }
 }
