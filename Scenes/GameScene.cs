@@ -146,7 +146,7 @@ namespace GameTemplate.Scenes
                     if ((player.pos.Y) - (2 * tileSize - 70) > 0)
                     {
                         player.ChangeDirection(new Vector2(0, -1), tileSize);
-                        player.tex = TextureHandler.holdingSword;
+                        Player.tex = TextureHandler.holdingSword;
                     }
                     else
                     {
@@ -157,15 +157,17 @@ namespace GameTemplate.Scenes
                     }
 
 
-                    if (player.tex == TextureHandler.PlayerShot)
-                    {
-                        Data.CurrentState = Data.Scenes.Win;
+                    if (Player.timer>5)
+                    {                        
                         for (int l = 0; l < buttonArray.Length; l++)
                         {
                             buttonArray[l].Reset();
                             Buttons.allClicked = false;
 
                         }
+
+                        
+
                         player = new Player(new Vector2(tileSize * 0 + 605, tileSize * 13 + 70));
                         monster = new Animation(spriteBatch, TextureHandler.monster, 640 / 5, 640 / 5, 24, 0.1f);
                         sword = new Animation(spriteBatch, TextureHandler.sword, 640 / 5, 384 / 3, 12, 0.1f);
@@ -178,9 +180,14 @@ namespace GameTemplate.Scenes
                         {
                             iceMissileArray[j] = new IceMissile(spriteBatch, Data.content, tileSize, graphics, j + 4);
                         }
+
+                        Data.CurrentState = Data.Scenes.Win;
+
                         player.Reset();
+
+
                     }
-                    
+
                 }
 
 
@@ -198,9 +205,9 @@ namespace GameTemplate.Scenes
 
                 Player.swordTime += gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (Player.swordTime >= 20)
+                if (Player.swordTime >= 10)
                 {
-                    player.tex = TextureHandler.PlayerTexture;
+                    Player.tex = TextureHandler.PlayerTexture;
 
                     Player.swordActive = false;
                 }
@@ -247,7 +254,7 @@ namespace GameTemplate.Scenes
             }
             if (Player.swordActive)
             {
-                spriteBatch.DrawString(TextureHandler.Swordtime, "" + (20 - (int)Player.swordTime), new Vector2((tileSize + 10) * 2 + (tileSize + tileSize / 2) - 50, (tileSize + 10) * 2 + 50), Color.OrangeRed);
+                spriteBatch.DrawString(TextureHandler.Swordtime, "" + (10 - (int)Player.swordTime), new Vector2((tileSize + 10) * 2 + (tileSize + tileSize / 2) - 50, (tileSize + 10) * 2 + 50), Color.OrangeRed);
 
             }
 

@@ -8,7 +8,7 @@ namespace GameTemplate.Core
 {
     public class Player
     {
-        public Texture2D tex;
+        public static Texture2D tex;
         public Vector2 pos;
         public Vector2 direction;
         public float speed;
@@ -21,7 +21,7 @@ namespace GameTemplate.Core
         public static double swordTime = 0;
         public static bool godMode=false;
         public static bool endMode = false;
-        double timer = 0;
+        public static double timer = 0;
 
         public Player(Vector2 pos)
         {
@@ -188,7 +188,9 @@ namespace GameTemplate.Core
             speed = 6.9f;
             destination = Vector2.Zero;
             godMode = false;
-
+            timer = 0;
+            endMode = false;
+            
         }
     }
 }
